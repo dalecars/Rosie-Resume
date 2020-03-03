@@ -37,6 +37,8 @@ function repoInformationHTML(repos) {
 }
 
 function fetchGitHubInformation(event) {
+    $("#gh-user-data").html("");
+    $("#gh-repo-data").html("");
     var username = $("#gh-username").val();
 
     if(!username) {
@@ -60,12 +62,16 @@ function fetchGitHubInformation(event) {
             $("#gh-repo-data").html(repoInformationHTML(repoData));
         }, 
         function(errorResponse) {
-            if(errorResponse.status === 404) {
-                $("#gh-user-data").html(`<h2>No info found for user ${username}</h2>`);
+            if (errorResponse.status === 404) {
+                $("#gh-user-data").html(
+                    `<h2>No info found for user ${username}</h2>`);
             } else {
                 console.log(errorResponse);
-                $("#gh-user-data").html(`<h2>Error: ${errorResponse.responseJSON.message}</h2>`);
+                $("#gh-user-data").html(
+                    `<h2>Error: ${errorResponse.responseJSON.message}</h2>`);
             }
         }
     );
 }
+
+$(document).ready(fetchGitHubInformation);
